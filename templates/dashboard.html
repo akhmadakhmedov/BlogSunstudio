@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h3>Панель управление</h3>
+    <hr>
+    <p>Добро пожаловать, <b>{{request.user.username}}</b></p>
+    <hr>
+    <a class = "btn btn-danger" href = "/articles/addarticle">Создать статью</a>
+    <hr>
+
+    {% if articles %}
+        <table class="table">
+        <thead>
+        <tr>
+        <th scope="col">Номер</th>
+        <th scope="col">Названия </th>
+        <th scope="col">Автор</th>
+        <th scope="col">Дата</th>
+        <th scope="col">Обновлять</th>
+        <th scope="col">Удалить</th>
+        </tr>
+        </thead>
+        {% for article in articles  %}
+            <tbody>
+            <tr>
+            <th scope="row">{{article.id}}</th>
+            <td><a href = "/articles/article/{{article.id}}">{{article.title}}</a></td>
+            <td>{{article.author}}</td>
+            <td>{{article.created_date}}</td>
+            <td> <a  href="/articles/update/{{article.id}}" class = "btn btn-danger">Обновлять</a></td>
+            <td> <a  href="/articles/delete/{{article.id}}" class = "btn btn-danger">Удалить</a></td>
+            </tr>
+            </tbody>
+        {% endfor %}     
+        </table> 
+    {% else %}
+        <div class = "alert alert-danger">У вас еще нет статей в личном кабинете.</div>
+    {% endif %}
+
+{% endblock content %}

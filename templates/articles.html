@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-10 offset-md-3">
+        <div class="col-lg-8">
+            <h1>Статьи</h1>
+            <hr>
+        </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10 offset-md-3">
+            <div class="col-lg-8">
+            <form>
+                {% csrf_token %} 
+                <input style="width: 640px;" type="text" name = "keyword" class="input-sm" maxlength="64" placeholder="Поиск...">
+                <button type="submit" class="btn btn-danger">Поиск</button>
+            </form>
+            </div>
+        </div>
+    </div>
+
+
+    {% if articles %}
+        {% for article in articles %}
+            <div class="row">
+            <div class="col-md-10 offset-md-3">
+                <!-- Post Content Column -->
+                <div class="col-lg-8">
+                    <!-- Title -->
+                    <a href = "{% url 'article:detail' article.id %}"><h2 class="mt-4">{{article.title}}</h2></a>
+                    <!-- Author -->
+                    <p class="lead">
+                    <b>{{article.author.username}}</b>
+                    </p>
+                    <hr>
+                    <!-- Date/Time -->
+                    <p>{{article.created_date}}</p>
+                    <hr>
+                    <p class="lead">{{article.content|safe|truncatewords:35}}</p>
+                    <a style="float:right;" href="{% url 'article:detail' article.id %}" class='btn btn-danger'>Читать дальше</a>             
+                    <hr>
+                </div>
+            </div>     
+            </div>             
+        {% endfor %}
+    
+    {% else %}
+        <div class ="row">
+            <div class="col-md-10 offset-md-3">
+                <div class="col-lg-8">
+                    <div class = "alert alert-danger">Мы не смогли найти ни одной статьи</div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock content %}

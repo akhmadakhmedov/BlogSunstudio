@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% block content %}
+{% load social_share %}
+
+<div class="row">
+  
+      <!-- Post Content Column -->
+      <div class="col-lg-10">
+        <!-- Title -->
+        <h3 class="mt-4">{{article.title}}</h3>
+        <!-- Author -->
+        <p class="lead">
+          <b>{{article.author.username}}</b>
+        </p>
+        <hr>
+        <!-- Date/Time -->
+        <p>{{article.created_date}}</p>
+        <p><b style='color:grey;'>Поделиться</b></p>
+          {% post_to_facebook  object_or_url 'Facebook' %}
+          {% post_to_twitter Twitter object_or_url "Twitter" %}
+          {% post_to_linkedin object_or_url 'Linkedin' %}
+          {% post_to_telegram 'Telegram' object_or_url 'Telegram' %}
+          {% post_to_whatsapp object_or_url 'Whats app' %}
+        <hr>
+        <p class="lead">{{article.content|safe}}</p>
+        {% if article.article_photo %}
+          <img class = "img-fluid rounded" src = "{{article.article_photo.url}}" alt ="">      
+        {% endif %}
+
+        
+        <hr>
+        
+        <h4>Комментарии</h4>
+        <hr>
+        {% if comments %}
+          {% for comment in comments %}
+          <div class="media mb-4">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/20x20" alt="">
+                <div class="media-body">
+                   <h5 class="mt-0">{{comment.comment_author}}</h5>
+                   {{comment.comment_date}}<br>
+                   {{comment.comment_content}}
+                </div>
+          </div>         
+          {% endfor %}
+        {% else %}
+          <div class = "alert alert-danger">Нет никаких комментариев, вы можете быть первым</div>
+        {% endif %}
+        <div class="card my-4">
+          <h5 class="card-header">Оставить комментарий:</h5>
+          <div class="card-body">
+            <form method = "post" action = "{% url 'article:comment' article.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+            <label>Имя</label>
+            <input name = 'comment_author' type="text" class="form-control"  placeholder="Аскар Аскаров">
+          </div>
+              <div class="form-group">
+              <label>Ваш комментарий</label>
+                <textarea name = 'comment_content' class="form-control" rows="3"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class='mainz'>
+    <h1>Добро пожаловать в наш блог.</h1><br>
+    <h4>Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона, а также реальное распределение букв и пробелов в абзацах, которое не получается при простой дубликации "Здесь ваш текст.. Здесь ваш текст.. Здесь ваш текст.." Многие программы электронной вёрстки и редакторы HTML используют Lorem Ipsum в качестве текста по умолчанию, так что поиск по ключевым словам "lorem ipsum" сразу показывает, как много веб-страниц всё ещё дожидаются своего настоящего рождения. За прошедшие годы текст Lorem Ipsum получил много версий. Некоторые версии появились по ошибке, некоторые - намеренно (например, юмористические варианты).
+</h4> 
+</div>
+
+<div class='artcat'>
+<h1>Интересные статьи</h1>
+</div>
+<div class='rowzz'>
+<div class="row">
+{% for article in articles %}
+<div class="col-5 m-2">
+    <div id="card2" class="card">
+        <div class="card-body"> 
+                    <!-- Title -->
+                    <a href = "{% url 'article:detail' article.id %}">{{article.title}}</a>
+                    <!-- Author -->
+                    <p class="lead">
+                    <b>{{article.author.username}}</b>
+                    </p>
+                    <hr>
+                    <p class="lead">{{article.content|safe|truncatewords:15}}</p>
+
+            </div>     
+            </div>  
+            </div>           
+        {% endfor %}
+        </div>
+        </div>
+{% endblock content %}
